@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+    {#{{ form_widget(form) }}#}
+    {#<div>#}
+        {#{{ form_label(form.name,'Vor- und Nachname') }}#}
+        {#{{ form_errors(form.name) }}#}
+        {#{{ form_widget(form.name) }}#}
+    {#</div>#}
+    {{ form_errors(form) }}
+    {{ form_row(form.name,{attr:{'placeholder':'Vor- und Nachname'}}) }}
+    {{ form_row(form.price,{attr:{'placeholder':'00 $'}}) }}
+    {{ form_row(form.description,{attr:{'placeholder':'description ...'}}) }}
+    {#{{ form_widget(form.save) }}#}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
