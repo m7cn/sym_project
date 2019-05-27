@@ -14,18 +14,21 @@
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
-
-		  <div class="collapse navbar-collapse" id="navbarColor01">
+			{#{% set currentPath = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params'))%}#}
+			{% set className ='nav-item' %}
+			<div class="collapse navbar-collapse" id="navbarColor01">
 		    <ul class="navbar-nav mr-auto">
-		      <li class="nav-item active">
+		      {#<li class="nav-item active"  >
 		        <a class="nav-link" href="{{ path('product_index') }}">Home <span class="sr-only">(current)</span></a>
+		      </li>#}
+		      <li class="{% if path('product_index') in app.request.pathinfo %}{{className ~ ' active'}}{% else %}{{ className }}{% endif %}">
+		        <a class="nav-link" href="{{ path('product_index') }}">Products</a>
 		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="#">Features</a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="#">Pricing</a>
-		      </li>
+				{% if is_granted('ROLE_ADMIN') %}
+				  <li class="{% if path('user_index') in app.request.pathinfo %}{{className ~ ' active'}}{% else %}{{ className }}{% endif %}">
+					<a class="nav-link" href="{{ path('user_index') }}">Users</a>
+				  </li>
+				{% endif %}
 		      <li class="nav-item">
 		        <a class="nav-link" href="#">About</a>
 		      </li>

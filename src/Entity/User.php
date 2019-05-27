@@ -35,18 +35,68 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Bitte die Email-Addresse ausfüllen")
+     * @Assert\NotBlank(message="Bitte die Password ausfüllen")
      * @Assert\Length(
      *      min = 6,
      *      max = 4096,
      *      minMessage = "Your password must be at least {{ limit }} characters long",
      *      maxMessage = "Your password cannot be longer than {{ limit }} characters"
      * )
-     * @Assert\EqualTo(propertyPath="confirm_password")
      */
     private $password;
-
+    /**
+     * @var $confirm_password
+     * @Assert\EqualTo(propertyPath="password")
+     */
     private $confirm_password;
+
+    /**
+     * @ORM\Column(type="string",length=180,nullable=true)
+     */
+    private $first_name;
+
+    /**
+     * @ORM\Column(type="string",length=180,nullable=true)
+     */
+    private $last_name;
+
+    /**
+     * @ORM\Column(type="string",length=180,nullable=true)
+     */
+    private $salutation;
+
+    /**
+     * @ORM\Column(type="string",length=180,nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @var datetime $created_at
+     * @ORM\Column(type="datetime",options={"default": "CURRENT_TIMESTAMP"},nullable=true)
+     */
+    protected $created_at;
+
+    /**
+     * @var datetime $updated_at
+     * @ORM\Column(type="datetime",options={"default": "CURRENT_TIMESTAMP"},nullable=true)
+     */
+    protected $updated_at;
+
+    /**
+     * @return datetime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @return datetime
+     */
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updated_at;
+    }
 
     public function getId(): ?int
     {
@@ -134,4 +184,85 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param mixed $first_name
+     */
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * @param mixed $last_name
+     */
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSalutation()
+    {
+        return $this->salutation;
+    }
+
+    /**
+     * @param mixed $salutation
+     */
+    public function setSalutation($salutation)
+    {
+        $this->salutation = $salutation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * Get triggered only on insert
+     */
+    public function onPrePersist(){
+        $this->created_at= new \DateTime("now");
+        $this->updated_at = new \DateTime("now");
+    }
+
+    /**
+     * Get trigged only on update
+     */
+    public function onPreUpdate(){
+        $this->updated_at = new \DateTime("now");
+    }
+
+
 }
