@@ -5,19 +5,27 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/product")
+ *
  */
 class ProductController extends AbstractController
 {
     /**
      * @Route("/", name="product_index", methods={"GET"})
+     *
      */
     public function index(ProductRepository $productRepository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -39,9 +47,12 @@ class ProductController extends AbstractController
     /**
      * @Route("/new", name="product_new", methods={"GET","POST"})
      * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
+     * IsGranted("ROLE_USER")
      */
     public function new(Request $request, Product $product = null): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $view = 'product/edit.html.twig';
         if(!$product){
             $product = new Product();
@@ -99,9 +110,11 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="product_delete", methods={"DELETE"})
+     * IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Product $product): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);

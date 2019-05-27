@@ -29,6 +29,7 @@
                         <div>
                             {{product.price}} $
                         </div>
+                        {% if is_granted('ROLE_USER') %}
                         <div>
                             {#<a href="{{ path("product_delete",{id:product.id})}}"><img src="{{asset("images/icons8-delete-bin-24.png")}}" alt="Delete Product"></a>#}
                             <a href="{{ path("product_edit",{id:product.id})}}"><img src="{{asset("images/icons8-edit-24.png")}}" alt="Edit Product"></a>
@@ -38,10 +39,12 @@
                                 <button style="padding: 0px;border: 0px;background-color: aliceblue;"><img src="{{asset("images/icons8-delete-bin-24.png")}}" alt="Delete Product"></button>
                             </form>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         {% endfor %}
+        {% if is_granted('ROLE_USER') %}
         <div class="col-lg-4" style="height: 430px">
             <div class="card mb-3">
                 <h3 class="card-header">Create new</h3>
@@ -55,6 +58,7 @@
                 {#</div>#}
             </div>
         </div>
+        {% endif %}
     </div>
     <div class="row" style="margin: 0 auto;display: inline;">
         <div class="navigation">
