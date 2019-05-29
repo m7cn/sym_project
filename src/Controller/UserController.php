@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+use Knp\Component\Pager\PaginatorInterface;
+
 /**
  * @Route("/user")
  * @IsGranted("ROLE_ADMIN",statusCode=404, message="No access! Get out!")
@@ -20,10 +22,19 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository,PaginatorInterface $paginator): Response
     {
+        // Paginate the results of the query
+        $users = $paginator->paginate(
+        // Doctrine Query, not results
+            $userRepository->findAll(),
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
         ]);
     }
 

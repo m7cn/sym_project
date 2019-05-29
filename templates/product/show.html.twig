@@ -3,10 +3,15 @@
 {% block title %}Product{% endblock %}
 
 {% block body %}
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ path('product_index') }}">Home</a></li>
-        <li class="breadcrumb-item active">show product</li>
-    </ol>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('product_index') }}">Home</a></li>
+                <li class="breadcrumb-item active">show product</li>
+            </ol>
+        </div>
+    </div>
 
     <table class="table">
         <tbody>
@@ -40,4 +45,5 @@
         {{ include('product/_delete_form.html.twig') }}
     {% endif %}
     <a href="{{ path('product_index') }}"><< back to list</a>
+</div>
 {% endblock %}

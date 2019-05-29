@@ -3,6 +3,16 @@
 {% block title %}User management{% endblock %}
 
 {% block body %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('user_index') }}">Home</a></li>
+                <li class="breadcrumb-item active">User Management</li>
+            </ol>
+        </div>
+    </div>
+
     <h1>User management</h1>
 
     <table class="table table-striped">
@@ -50,6 +60,15 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <div class="row" style="margin: 0 auto;display: inline;">
+        <div class="navigation">
+            {{ knp_pagination_render(users, null, {}, {
+                'position': 'centered',
+                'size': 'large',
+                'rounded': true,
+            }) }}
+        </div>
+    </div>
+</div>
     {#<a href="{{ path('user_new') }}">Create new</a>#}
 {% endblock %}

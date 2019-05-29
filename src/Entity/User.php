@@ -51,6 +51,12 @@ class User implements UserInterface
     private $confirm_password;
 
     /**
+     * @var $token
+     * @ORM\Column(type="string",length=250,nullable=true)
+     */
+    private $token;
+
+    /**
      * @ORM\Column(type="string",length=180,nullable=true)
      */
     private $first_name;
@@ -88,6 +94,14 @@ class User implements UserInterface
     public function getCreatedAt(): \DateTime
     {
         return $this->created_at;
+    }
+
+    /**
+     * @Assert\IsTrue(message="The password cannot match your first name")
+     */
+    public function isPasswordSafe()
+    {
+        return $this->first_name !== $this->password;
     }
 
     /**
@@ -262,6 +276,22 @@ class User implements UserInterface
      */
     public function onPreUpdate(){
         $this->updated_at = new \DateTime("now");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
     }
 
 

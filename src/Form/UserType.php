@@ -20,7 +20,8 @@ class UserType extends AbstractType
 //            ->add('password')
             ->add('first_name')->setRequired(false)
             ->add('last_name')->setRequired(false)
-            ->add('salutation',ChoiceType::class, [
+            ->add('salutation',ChoiceType::class
+                ,[
                     'choices'  => [
                         '' => '',
                         'Ms' => 'Ms',
