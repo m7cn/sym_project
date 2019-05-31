@@ -24,6 +24,7 @@ class UserFixtures extends Fixture
            $user,
            '123456'
         ));
+        $user->onPrePersist();
         $manager->persist($user);
         $manager->flush();
     }
