@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
@@ -97,6 +98,14 @@ class User implements UserInterface
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt()
+    {
+        $this->createdAt = $this->updated_at = new \DateTime();
+    }
+
+    /**
      * @Assert\IsTrue(message="The password cannot match your first name")
      */
     public function isPasswordSafe()
@@ -110,6 +119,14 @@ class User implements UserInterface
     public function getUpdatedAt(): \DateTime
     {
         return $this->updated_at;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt()
+    {
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -261,21 +278,6 @@ class User implements UserInterface
     public function setPhone($phone)
     {
         $this->phone = $phone;
-    }
-
-    /**
-     * Get triggered only on insert
-     */
-    public function onPrePersist(){
-        $this->created_at= new \DateTime("now");
-        $this->updated_at = new \DateTime("now");
-    }
-
-    /**
-     * Get trigged only on update
-     */
-    public function onPreUpdate(){
-        $this->updated_at = new \DateTime("now");
     }
 
     /**

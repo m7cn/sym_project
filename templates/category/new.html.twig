@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Category{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('category_index') }}">Home</a></li>
+                <li class="breadcrumb-item active">Create new category</li>
+            </ol>
+        </div>
+    </div>
+    <h1>Create new Category</h1>
+
+    {{ include('category/_form.html.twig') }}
+
+    <a href="{{ path('category_index') }}"><<< back to list</a>
+</div>
+{% endblock %}

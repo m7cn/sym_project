@@ -49,7 +49,6 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $user->onPrePersist();
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -81,7 +80,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->onPreUpdate();
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index', [

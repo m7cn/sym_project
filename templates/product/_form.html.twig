@@ -9,6 +9,15 @@
     {{ form_row(form.name,{attr:{'placeholder':'Product Name'}}) }}
     {{ form_row(form.price,{attr:{'placeholder':'00 $'}}) }}
     {{ form_row(form.description,{attr:{'placeholder':'description ...'}}) }}
+    <div class="form-group">
+        <label id="categories">Category</label>
+        <select name="categories" class="form-control" id="categories">
+            <option value=""></option>
+            {% for cat in category_management.getCategories() %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor  %}
+        </select>
+    </div>
     {#{{ form_widget(form.save) }}#}
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

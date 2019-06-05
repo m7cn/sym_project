@@ -47,7 +47,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $user->onPreUpdate();
             $encoded = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encoded);
             $user->setToken(null);
@@ -84,7 +83,6 @@ class SecurityController extends AbstractController
                     );
                 $mailer->send($message);
                 $user->setToken($token);
-                $user->onPreUpdate();
                 $this->getDoctrine()->getManager()->flush();
                 return $this->render('security/forget_password.html.twig',['email'=>$email]);
             }else{

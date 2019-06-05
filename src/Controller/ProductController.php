@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +50,7 @@ class ProductController extends AbstractController
      * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
      * IsGranted("ROLE_USER")
      */
-    public function new(Request $request, Product $product = null): Response
+    public function new(Request $request, Product $product = null,CategoryRepository $categoryRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -64,6 +65,13 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            if($request->request->get('categories')){
+                $id = $request->request->get('categories');
+                $cat = $categoryRepository->findOneBy(['id'=>$id]);
+                if($cat){
+                    $product->setCategory($cat);
+                }
+            }
             $entityManager->persist($product);
             $entityManager->flush();
 
